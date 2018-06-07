@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 1000px;
+            height: 300px;
+            border: 1px solid #000;
+            margin: 100px auto;
+            overflow: hidden;
+        }
+
+        #box ul {
+            width: 1200px;
+        }
+
+        #box li {
+            width: 200px;
+            height: 300px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</body>
+<script src="jquery-1.12.4.js"></script>
+<script>
+    $(function () {
+
+        $.fn.sfq = function (colors, width) {
+            colors = colors || ["red", "blue", "green", "yellow", "cyan"];//默认颜色
+            width = width || 50;//默认宽度
+
+            var $li = this.find("li");//找到这个li
+            var boxLength = this.width(); //总宽度
+            var maxLength = boxLength - ($li.length - 1) * width; //总宽度-(li的个数-1)*设置的宽度
+            var avgLength = boxLength / $li.length; //总宽度除li的个数
+
+            //遍历颜色数组
+            $li.each(function (i, e) {
+                $(e).css("backgroundColor", colors[i]);
+            })
+
+            $li.on("mouseenter", function () {
+                $(this).stop().animate({
+                    width: maxLength
+                }, "linear").siblings().stop().animate({
+                    width: width
+                });
+            })
+
+            $li.on("mouseleave", function () {
+                $li.stop().animate({
+                    width: avgLength
+                })
+            })
+
+        }
+        // var colors = ["pink", "blue", "green", "yellow", "cyan"];
+        $("#box").sfq();
+    })
+</script>
+
+</html>
